@@ -13,7 +13,7 @@ public class MySuperTest {
     RemoteWebDriver driver;
     private final String SAUCE_USERNAME = System.getenv("SAUCE_USERNAME");
     private final String SAUCE_ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
-    private final String SAUCE_URL = String.format("https://%s:%s@ondemand.saucelabs.com:443/wd/hub",SAUCE_USERNAME,SAUCE_ACCESS_KEY);
+    private final String SAUCE_URL = String.format("https://%s:%s@ondemand.eu-central-1.saucelabs.com:443/wd/hub",SAUCE_USERNAME,SAUCE_ACCESS_KEY);
     private static String buildTag;
     
     @BeforeClass
