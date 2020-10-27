@@ -22,7 +22,7 @@ public class MySuperTest {
         //You can set this manually on manual runs.
         buildTag = System.getenv("BUILD_TAG");
         if (buildTag == null) {
-            buildTag = System.getenv("SAUCE_BAMBOO_BUILDNUMBER");
+            buildTag = System.getenv("SAUCE_TC_BUILDNUMBER");
         }
     }
 
