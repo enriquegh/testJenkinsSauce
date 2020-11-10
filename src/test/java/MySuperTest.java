@@ -5,8 +5,11 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class MySuperTest {
 
@@ -15,7 +18,7 @@ public class MySuperTest {
     private final String SAUCE_ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
     private final String SAUCE_URL = String.format("https://%s:%s@ondemand.saucelabs.com:443/wd/hub",SAUCE_USERNAME,SAUCE_ACCESS_KEY);
     private static String buildTag;
-    
+
     @BeforeClass
     public static void setupClass() {
         //If available add build tag. When running under Jenkins BUILD_TAG is automatically set.
@@ -34,26 +37,27 @@ public class MySuperTest {
         caps.setVersion(System.getenv("SELENIUM_VERSION"));
         caps.setCapability(CapabilityType.PLATFORM, System.getenv("SELENIUM_PLATFORM"));
         caps.setCapability("deviceOrientation", System.getenv("SELENIUM_DEVICE_ORIENTATION"));
-        
+
         if (buildTag != null) {
             caps.setCapability("build", buildTag);
         }
 
 
         try {
-            driver = new RemoteWebDriver(new URL(SAUCE_URL),caps);
+            String mySauceURL = String.format("https://%s:%s@ondemand.saucelabs.com:443/wd/hub",URLEncoder.encode(SAUCE_USERNAME, StandardCharsets.UTF_8.toString()),SAUCE_ACCESS_KEY);
+            driver = new RemoteWebDriver(new URL(mySauceURL),caps);
             printSessionId("testJenkinsCaps");
 
             driver.get("https://google.com");
 
             Assert.assertTrue("Title is Google",driver.getTitle().equals("Google"));
             driver.quit();
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
     }
-    
+
     @Test
     public void testJenkinsCaps2() {
         DesiredCapabilities caps = new DesiredCapabilities();
@@ -62,21 +66,22 @@ public class MySuperTest {
         caps.setVersion(System.getenv("SELENIUM_VERSION"));
         caps.setCapability(CapabilityType.PLATFORM, System.getenv("SELENIUM_PLATFORM"));
         caps.setCapability("deviceOrientation", System.getenv("SELENIUM_DEVICE_ORIENTATION"));
-        
+
         if (buildTag != null) {
             caps.setCapability("build", buildTag);
         }
 
 
         try {
-            driver = new RemoteWebDriver(new URL(SAUCE_URL),caps);
+            String mySauceURL = String.format("https://%s:%s@ondemand.saucelabs.com:443/wd/hub",URLEncoder.encode(SAUCE_USERNAME, StandardCharsets.UTF_8.toString()),SAUCE_ACCESS_KEY);
+            driver = new RemoteWebDriver(new URL(mySauceURL),caps);
             printSessionId("testJenkinsCaps2");
 
             driver.get("https://google.com");
 
             Assert.assertTrue("Title is Google",driver.getTitle().equals("Google"));
             driver.quit();
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
