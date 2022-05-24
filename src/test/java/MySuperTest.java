@@ -15,7 +15,7 @@ public class MySuperTest {
     private final String SAUCE_ACCESS_KEY = System.getenv("SAUCE_ACCESS_KEY");
     private final String SAUCE_URL = String.format("https://%s:%s@ondemand.saucelabs.com:443/wd/hub",SAUCE_USERNAME,SAUCE_ACCESS_KEY);
     private static String buildTag;
-    
+
     @BeforeClass
     public static void setupClass() {
         //If available add build tag. When running under Jenkins BUILD_TAG is automatically set.
@@ -30,11 +30,12 @@ public class MySuperTest {
     public void testJenkinsCaps() {
         DesiredCapabilities caps = new DesiredCapabilities();
 
-        caps.setBrowserName(System.getenv("SELENIUM_BROWSER"));
-        caps.setVersion(System.getenv("SELENIUM_VERSION"));
-        caps.setCapability(CapabilityType.PLATFORM, System.getenv("SELENIUM_PLATFORM"));
-        caps.setCapability("deviceOrientation", System.getenv("SELENIUM_DEVICE_ORIENTATION"));
-        
+        caps.setBrowserName(System.getenv("SELENIUM_BROWSER") != null ?
+                System.getenv("SELENIUM_BROWSER") : "chrome");
+        caps.setCapability(CapabilityType.BROWSER_VERSION,System.getenv("SELENIUM_VERSION"));
+        caps.setCapability(CapabilityType.PLATFORM_NAME, System.getenv("SELENIUM_PLATFORM") != null ?
+                System.getenv("SELENIUM_PLATFORM") : "Windows 10");
+        caps.setCapability("tunnelName", System.getenv("TUNNEL_IDENTIFIER"));
         if (buildTag != null) {
             caps.setCapability("build", buildTag);
         }
